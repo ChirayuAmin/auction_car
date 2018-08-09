@@ -1,0 +1,129 @@
+<div>
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Car Detail</h3>
+    </div>
+    <div class="from-horizontal">
+      <form #f="ngForm" (ngSubmit)="f.form.valid && onSave()" class="row" novalidate>
+        <input type="hidden" name="carId" [(ngModel)]="model.carId" #carId="ngModel">
+        <div class="form-group col-sm-3" [ngClass]="{
+                'has-error': f.submitted && modelNumber.invalid,
+                'has-success': f.submitted && modelNumber.valid
+           }">
+          <label>Model No.:</label>
+          <input type="text" class="form-control" name="modelNumber" [(ngModel)]="model.modelNumber" #modelno="ngModel" required>
+          <div class="form-control-feedback" *ngIf="f.submitted && modelNumber.errors">
+            <p *ngIf="modelNumber.errors.required">Model number is required</p>
+            <!-- <p *ngIf="pDate.errors.pattern">Date must Be in dd/MM/yyyy format</p> -->
+          </div>
+        </div>
+        <div class="col-sm-9 row">
+          <div class="form-group col-sm-4" [ngClass]="{
+            'has-error':f.submitted && name.invalid,
+            'has-success':f.submitted && name.valid
+          }">
+            <label>Name:</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="model.name" #name="ngModel" required>
+            <div class="form-control-feedback" *ngIf="f.submitted && name.errors">
+              <p *ngIf="name.errors.required">Model number is required</p>
+              <!-- <p *ngIf="pDate.errors.pattern">Date must Be in dd/MM/yyyy format</p> -->
+            </div>
+
+            <div class="form-group col-sm-4" [ngClass]="{
+            'has-error':f.submitted && !type.valid
+          }">
+              <label>Type:</label>
+              <select class="form-control" name="type" [(ngModel)]="model.type" #type="ngModel" required>
+                <option value="" [disabled]="true">Please select car type</option>
+                <option value="HATCHBACK">HATCHBACK</option>
+                <option value="SEDAN">SEDAN</option>
+                <option value="MPV">MPV</option>
+                <option value="SUV">SUV</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="f.submitted && !type.valid">Car type is required</div>
+            </div>
+
+            <div class="form-group col-sm-4" [ngClass]="{
+            'has-error':f.submitted && !color.valid
+          }">
+              <label>Color:</label>
+              <select class="form-control" name="color" [(ngModel)]="model.color" #color="ngModel" required>
+                <option value="" [disabled]="true">Please select car color</option>
+                <option value="RED">RED</option>
+                <option value="WHITE">WHITE</option>
+                <option value="BLUE">BLUE</option>
+                <option value="GREEN">GREEN</option>
+                <option value="YELLOW">YELLOW</option>
+                <option value="BLACK">BLACK</option>
+                <option value="GREY">GREY</option>
+                <option value="GOLD">GOLD</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="f.submitted && !color.valid">Car color is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <hr>
+        </div>
+        <div class="form-group col-sm-3" [ngClass]="{
+          'has-error':f.submitted && !buildYear.valid
+        }">
+          <label>Build Year:</label>
+          <input type="text" class="form-control" name="buildYear" placeholder="dd/MM/yyyy" [(ngModel)]="model.buildYear" #buildYear="ngModel"
+            #buildYear="bsdatepicker" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" required>
+          <div class="form-control-feedback" *ngIf="f.submitted && buildYear.errors">
+            <p *ngIf="buildYear.errors.required">Project Date is required</p>
+            <!-- <p *ngIf="pDate.errors.pattern">Date must Be in dd/MM/yyyy format</p> -->
+          </div>
+        </div>
+        <div class="form-group col-sm-3" [ngClass]="{ 'has-error': f.submitted && !manufacturerName.valid }">
+          <label>Manufacturer Name:</label>
+          <input type="text" class="form-control" name="manufacturerName" [(ngModel)]="model.manufacturerName" #manufacturerName="ngModel"
+            required>
+          <div class="form-control-feedback" *ngIf="f.submitted && manufacturerName.errors">
+            <p *ngIf="manufacturerName.errors.required">Manufacturer Name is required</p>
+          </div>
+        </div>
+        <div class="box-footer text-center">
+          <input type="submit" value="Submit" class="btn btn-primary">
+          <input type="button" value="Cancel" class="btn btn-primary" (click)="clearControl()">
+        </div>
+      </form>
+
+      <div class="box-body" *ngIf="car">
+        <table class="table table-bordered table-striped" *ngIf="car.length" datatable>
+          <thead>
+            <tr>
+              <th style='display:none'>Id</th>
+              <th>Model No.</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Color</th>
+              <th>Build Year</th>
+              <th>Manufacturer Name</th>
+              <th>Action</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of car">
+              <td style='display:none'>{{c.carId}}</td>
+              <td>{{c.modelNumber}}</td>
+              <td>{{c.name}}</td>
+              <td>{{c.type}}</td>
+              <td>{{c.color}}</td>
+              <td>{{c.buildYear | date:'dd/MM/yyyy'}}</td>
+              <td>{{c.manufacturerName}}</td>
+              <td>
+                <input type="button" class="btn btn-warning" (click)="editDetail(c)" value="Edit">
+              </td>
+              <td>
+                <input type="button" class="btn btn-danger" (click)="deleteDetail(c.carId)" value="Delete">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

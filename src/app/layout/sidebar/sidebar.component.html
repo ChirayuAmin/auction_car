@@ -1,0 +1,20 @@
+<aside class="main-sidebar">
+
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu">
+
+          <!-- Optionally, you can add icons to the links -->
+          <li id="lihome"><a routerLink="/carauction/carinfo" routerLinkActive="active"><i class="fa fa-th-list" 
+            ></i><span>Car Information</span></a></li>
+          <!-- <li id="li1"><a href="#"><i class="glyphicon glyphicon-th-list"></i><span>Reports</span></a></li> -->
+          <li id="liassignproject" [ngStyle]="{'display':isAdmin=='True'? 'block' : 'none' }"><a routerLink="/carauction/user" routerLinkActive="active"><i class="fa fa-user"></i>
+            <span>User</span></a></li>
+            <li id="lireport" [ngStyle]="{'display':isAdmin=='True'? 'block' : 'none' }"><a routerLink="/carauction/displatcars" routerLinkActive="active"><i class="fa fa-tasks"></i>
+              <span>Display Cars</span></a></li>
+      </ul>
+      <!-- /.sidebar-menu -->
+  </section>
+  <!-- /.sidebar -->
+</aside>

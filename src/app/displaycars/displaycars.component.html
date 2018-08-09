@@ -1,0 +1,55 @@
+<div>
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Select Car</h3>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Name:</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="model.name" #name="ngModel">
+      </div>
+      <div class="col-md-4">
+        <label>Model No.:</label>
+        <input type="text" class="form-control" name="modelNumber" [(ngModel)]="model.modelNumber" #modelNumber="ngModel">
+      </div>
+      <div class="col-md-4">
+        <button type="button" class="btn btn-primary" (click)="getcars(name.value,modelNumber.value)" style="margin-top: 30px">Get Cars</button>
+      </div>
+    </div>
+    <hr>
+    <div class="box-body" *ngIf="car">
+      <table class="table table-bordered table-striped" *ngIf="car.length" datatable>
+        <thead>
+          <tr>
+            <th style='display:none'>Id</th>
+            <th>Model No.</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Color</th>
+            <th>Build Year</th>
+            <th>Manufacturer Name</th>
+            <th>Action</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of car">
+            <td style='display:none'>{{c.carId}}</td>
+            <td>{{c.modelNumber}}</td>
+            <td>{{c.name}}</td>
+            <td>{{c.type}}</td>
+            <td>{{c.color}}</td>
+            <td>{{c.buildYear | date:'dd/MM/yyyy'}}</td>
+            <td>{{c.manufacturerName}}</td>
+            <td>
+              <input type="button" class="btn btn-primary" (click)="editDetail(c)" value="Bidding History">
+            </td>
+            <td>
+              <input type="button" class="btn btn-primary" (click)="deleteDetail(c.carId)" value="Winning Bid">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

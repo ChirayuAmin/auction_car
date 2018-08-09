@@ -1,0 +1,95 @@
+<div>
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Project Management</h3>
+    </div>
+    <div class="from-horizontal">
+      <form #f="ngForm" (ngSubmit)="f.form.valid && onSave()" class="row" novalidate>
+        <input type="hidden" name="userId" [(ngModel)]="model.userId" #userId="ngModel">
+        <div class="form-group col-sm-12" [ngClass]="{
+                'has-error': f.submitted && name.invalid
+           }">
+          <label>User Name:</label>
+          <input type="text" class="form-control" name="name" [(ngModel)]="model.name" #name="ngModel" required>
+          <div class="form-control-feedback" *ngIf="f.submitted && name.errors">
+            <p *ngIf="name.errors.required">User Name is required</p>
+          </div>
+        </div>
+        <div class="col-sm-12 row">
+          <div class="form-group col-sm-4" [ngClass]="{
+            'has-error':f.submitted && !email.valid
+          }">
+            <label>Email:</label>
+            <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$">
+            <div class="form-control-feedback" *ngIf="f.submitted && email.errors">
+              <p *ngIf="email.errors.required">Email is required</p>
+              <p *ngIf="email.errors.pattern">Enter valid email</p>
+            </div>
+          </div>
+          <div class="form-group col-sm-4" [ngClass]="{
+            'has-error':f.submitted && !password.valid
+          }">
+            <label>Password:</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required minlength="8">
+            <div class="form-control-feedback" *ngIf="f.submitted && password.errors">
+              <p *ngIf="password.errors.required">Password is required</p>
+              <p *ngIf="password.errors.minlength">Password must be 8 or more than 8 character long</p>
+            </div>
+          </div>
+          <div class="form-group col-sm-4" [ngClass]="{
+            'has-error':f.submitted && !confirmPassword.valid
+          }">
+            <label>Confirm Password:</label>
+            <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="model.confirmPassword" #confirmPassword="ngModel"
+              required (blur)="checkpassword(model.confirmPassword,model.password)">
+            <p style="color:red" *ngIf="validatepass">Password Mismatch</p>
+            <div class="form-control-feedback" *ngIf="f.submitted && confirmPassword.errors">
+              <p *ngIf="confirmPassword.errors.required">ConfirmPassword is required</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 row">
+          <div class="form-group col-sm-4" [ngClass]="{
+            'has-error':f.submitted && !isManager.valid
+          }">
+            <label>Is Manager: </label>
+            <input type="radio" name="isManager" [(ngModel)]="model.isManager" #isManager="ngModel"[value]="true">Yes
+            <input type="radio" name="isManager" [(ngModel)]="model.isManager" #isManager="ngModel" [value]="false" checked>No
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <hr>
+          <div class="box-footer text-center">
+            <input type="submit" value="Submit" class="btn btn-primary">
+            <input type="button" value="Cancel" class="btn btn-primary" (click)="clearControl()">
+          </div>
+        </div>
+      </form>
+
+      <div class="box-body" *ngIf="userslist">
+        <table class="table table-bordered table-striped" *ngIf="userslist.length" datatable>
+          <thead>
+            <tr>
+              <th style='display:none'>UserId</th>
+              <th>User Name</th>
+              <th>Email</th>
+              <th>Is Manager</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of userslist">
+              <td style='display:none'>{{u.userId}}</td>
+              <td>{{u.name}}</td>
+              <td>{{u.email}}</td>
+              <td>{{u.isManager}}</td>
+              <td>
+                <input type="button" class="btn btn-warning" (click)="editDetail(u)" value="Edit">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
